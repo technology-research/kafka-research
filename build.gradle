@@ -19,6 +19,9 @@ import java.nio.charset.StandardCharsets
 
 buildscript {
   repositories {
+    maven {
+      url "http://maven.aliyun.com/nexus/content/groups/public/"
+    }
     mavenCentral()
     jcenter()
     maven {
@@ -54,13 +57,13 @@ allprojects {
   repositories {
     mavenCentral()
   }
-  
+
   apply plugin: 'idea'
   apply plugin: 'org.owasp.dependencycheck'
   apply plugin: 'com.github.ben-manes.versions'
 
   dependencyUpdates {
-    revision="release"
+    revision = "release"
     resolutionStrategy = {
       componentSelection { rules ->
         rules.all { ComponentSelection selection ->
@@ -124,19 +127,19 @@ if (file('.git').exists()) {
     excludes = new ArrayList<String>(repo.clean(ignore: false, directories: true, dryRun: true))
     // And some of the files that we have checked in should also be excluded from this check
     excludes.addAll([
-        '**/.git/**',
-        '**/build/**',
-        'CONTRIBUTING.md',
-        'PULL_REQUEST_TEMPLATE.md',
-        'gradlew',
-        'gradlew.bat',
-        'TROGDOR.md',
-        '**/README.md',
-        '**/id_rsa',
-        '**/id_rsa.pub',
-        'checkstyle/suppressions.xml',
-        'streams/quickstart/java/src/test/resources/projects/basic/goal.txt',
-        'streams/streams-scala/logs/*'
+            '**/.git/**',
+            '**/build/**',
+            'CONTRIBUTING.md',
+            'PULL_REQUEST_TEMPLATE.md',
+            'gradlew',
+            'gradlew.bat',
+            'TROGDOR.md',
+            '**/README.md',
+            '**/id_rsa',
+            '**/id_rsa.pub',
+            'checkstyle/suppressions.xml',
+            'streams/quickstart/java/src/test/resources/projects/basic/goal.txt',
+            'streams/streams-scala/logs/*'
     ])
   }
 }
@@ -175,31 +178,31 @@ subprojects {
   uploadArchives {
     repositories {
       signing {
-          required { shouldSign }
-          sign configurations.archives
+        required { shouldSign }
+        sign configurations.archives
 
-          // To test locally, replace mavenUrl in ~/.gradle/gradle.properties to file://localhost/tmp/myRepo/
-          mavenDeployer {
-              beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-              repository(url: "${mavenUrl}") {
-                  authentication(userName: "${mavenUsername}", password: "${mavenPassword}")
-              }
-              afterEvaluate {
-                  pom.artifactId = "${archivesBaseName}"
-                  pom.project {
-                      name 'Apache Kafka'
-                      packaging 'jar'
-                      url 'https://kafka.apache.org'
-                      licenses {
-                          license {
-                              name 'The Apache Software License, Version 2.0'
-                              url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-                              distribution 'repo'
-                          }
-                      }
-                  }
-              }
+        // To test locally, replace mavenUrl in ~/.gradle/gradle.properties to file://localhost/tmp/myRepo/
+        mavenDeployer {
+          beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+          repository(url: "${mavenUrl}") {
+            authentication(userName: "${mavenUsername}", password: "${mavenPassword}")
           }
+          afterEvaluate {
+            pom.artifactId = "${archivesBaseName}"
+            pom.project {
+              name 'Apache Kafka'
+              packaging 'jar'
+              url 'https://kafka.apache.org'
+              licenses {
+                license {
+                  name 'The Apache Software License, Version 2.0'
+                  url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                  distribution 'repo'
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -222,7 +225,7 @@ subprojects {
     beforeTest { TestDescriptor td ->
       def tid = testId(td)
       def logFile = new File(
-          "${projectDir}/build/reports/testOutput/${tid}.test.stdout")
+              "${projectDir}/build/reports/testOutput/${tid}.test.stdout")
       logFile.parentFile.mkdirs()
       logFiles.put(tid, logFile)
       logStreams.put(tid, new FileOutputStream(logFile))
@@ -354,7 +357,7 @@ subprojects {
     archives javadocJar
   }
 
-  if(!sourceSets.test.allSource.isEmpty()) {
+  if (!sourceSets.test.allSource.isEmpty()) {
     task testJar(type: Jar) {
       classifier = 'test'
       from "$rootDir/LICENSE"
@@ -376,7 +379,7 @@ subprojects {
   }
 
   plugins.withType(ScalaPlugin) {
-    task scaladocJar(type:Jar) {
+    task scaladocJar(type: Jar) {
       classifier = 'scaladoc'
       from "$rootDir/LICENSE"
       from "$rootDir/NOTICE"
@@ -393,33 +396,33 @@ subprojects {
 
   tasks.withType(ScalaCompile) {
     scalaCompileOptions.additionalParameters = [
-      "-deprecation",
-      "-unchecked",
-      "-encoding", "utf8",
-      "-Xlog-reflective-calls",
-      "-feature",
-      "-language:postfixOps",
-      "-language:implicitConversions",
-      "-language:existentials",
-      "-Xlint:by-name-right-associative",
-      "-Xlint:delayedinit-select",
-      "-Xlint:doc-detached",
-      "-Xlint:missing-interpolator",
-      "-Xlint:nullary-override",
-      "-Xlint:nullary-unit",
-      "-Xlint:option-implicit",
-      "-Xlint:package-object-classes",
-      "-Xlint:poly-implicit-overload",
-      "-Xlint:private-shadow",
-      "-Xlint:stars-align",
-      "-Xlint:type-parameter-shadow",
-      "-Xlint:unsound-match"
+            "-deprecation",
+            "-unchecked",
+            "-encoding", "utf8",
+            "-Xlog-reflective-calls",
+            "-feature",
+            "-language:postfixOps",
+            "-language:implicitConversions",
+            "-language:existentials",
+            "-Xlint:by-name-right-associative",
+            "-Xlint:delayedinit-select",
+            "-Xlint:doc-detached",
+            "-Xlint:missing-interpolator",
+            "-Xlint:nullary-override",
+            "-Xlint:nullary-unit",
+            "-Xlint:option-implicit",
+            "-Xlint:package-object-classes",
+            "-Xlint:poly-implicit-overload",
+            "-Xlint:private-shadow",
+            "-Xlint:stars-align",
+            "-Xlint:type-parameter-shadow",
+            "-Xlint:unsound-match"
     ]
 
     if (versions.baseScala != '2.11') {
       scalaCompileOptions.additionalParameters += [
-        "-Xlint:constant",
-        "-Xlint:unused"
+              "-Xlint:constant",
+              "-Xlint:unused"
       ]
     }
 
@@ -511,8 +514,8 @@ def fineTuneEclipseClasspathFile(eclipse, project) {
       if (project.name.equals('core')) {
         cp.entries.findAll { it.kind == "src" && it.path.equals("src/test/scala") }*.excludes = ["integration/", "other/", "unit/"]
       }
-      /* 
-       * Set all eclipse build output to go to 'build_eclipse' directory. This is to ensure that gradle and eclipse use different 
+      /*
+       * Set all eclipse build output to go to 'build_eclipse' directory. This is to ensure that gradle and eclipse use different
        * build output directories, and also avoid using the eclpise default of 'bin' which clashes with some of our script directories.
        * https://discuss.gradle.org/t/eclipse-generated-files-should-be-put-in-the-same-place-as-the-gradle-generated-files/6986/2
        */
@@ -528,8 +531,8 @@ def fineTuneEclipseClasspathFile(eclipse, project) {
 
 def checkstyleConfigProperties(configFileName) {
   [importControlFile: "$rootDir/checkstyle/$configFileName",
-   suppressionsFile: "$rootDir/checkstyle/suppressions.xml",
-   headerFile: "$rootDir/checkstyle/java.header"]
+   suppressionsFile : "$rootDir/checkstyle/suppressions.xml",
+   headerFile       : "$rootDir/checkstyle/java.header"]
 }
 
 // Aggregates all jacoco results into the root project directory
@@ -541,7 +544,7 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
 
   additionalSourceDirs = files(javaProjects.sourceSets.main.allSource.srcDirs)
   sourceDirectories = files(javaProjects.sourceSets.main.allSource.srcDirs)
-  classDirectories =  files(javaProjects.sourceSets.main.output)
+  classDirectories = files(javaProjects.sourceSets.main.output)
   executionData = files(javaProjects.jacocoTestReport.executionData)
 
   reports {
@@ -558,7 +561,7 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
 
 task reportCoverage(dependsOn: ['jacocoRootReport', 'core:reportCoverage'])
 
-for ( sv in availableScalaVersions ) {
+for (sv in availableScalaVersions) {
   String taskSuffix = sv.replaceAll("\\.", "_")
 
   tasks.create(name: "jarScala_${taskSuffix}", type: GradleBuild) {
@@ -605,23 +608,23 @@ for ( sv in availableScalaVersions ) {
 }
 
 def connectPkgs = [
-    'connect:api',
-    'connect:basic-auth-extension',
-    'connect:file',
-    'connect:json',
-    'connect:runtime',
-    'connect:transforms'
+        'connect:api',
+        'connect:basic-auth-extension',
+        'connect:file',
+        'connect:json',
+        'connect:runtime',
+        'connect:transforms'
 ]
 
 def pkgs = [
-    'clients',
-    'examples',
-    'log4j-appender',
-    'streams',
-    'streams:examples',
-    'streams:streams-scala',
-    'streams:test-utils',
-    'tools'
+        'clients',
+        'examples',
+        'log4j-appender',
+        'streams',
+        'streams:examples',
+        'streams:streams-scala',
+        'streams:test-utils',
+        'tools'
 ] + connectPkgs
 
 /** Create one task per default Scala version */
@@ -630,20 +633,20 @@ def withDefScalaVersions(taskName) {
 }
 
 tasks.create(name: "jarConnect", dependsOn: connectPkgs.collect { it + ":jar" }) {}
-tasks.create(name: "jarAll", dependsOn: withDefScalaVersions('jarScala') + pkgs.collect { it + ":jar" }) { }
+tasks.create(name: "jarAll", dependsOn: withDefScalaVersions('jarScala') + pkgs.collect { it + ":jar" }) {}
 
-tasks.create(name: "srcJarAll", dependsOn: withDefScalaVersions('srcJar') + pkgs.collect { it + ":srcJar" }) { }
+tasks.create(name: "srcJarAll", dependsOn: withDefScalaVersions('srcJar') + pkgs.collect { it + ":srcJar" }) {}
 
-tasks.create(name: "docsJarAll", dependsOn: withDefScalaVersions('docsJar') + pkgs.collect { it + ":docsJar" }) { }
+tasks.create(name: "docsJarAll", dependsOn: withDefScalaVersions('docsJar') + pkgs.collect { it + ":docsJar" }) {}
 
 tasks.create(name: "testConnect", dependsOn: connectPkgs.collect { it + ":test" }) {}
-tasks.create(name: "testAll", dependsOn: withDefScalaVersions('testScala') + pkgs.collect { it + ":test" }) { }
+tasks.create(name: "testAll", dependsOn: withDefScalaVersions('testScala') + pkgs.collect { it + ":test" }) {}
 
-tasks.create(name: "installAll", dependsOn: withDefScalaVersions('install') + pkgs.collect { it + ":install" }) { }
+tasks.create(name: "installAll", dependsOn: withDefScalaVersions('install') + pkgs.collect { it + ":install" }) {}
 
-tasks.create(name: "releaseTarGzAll", dependsOn: withDefScalaVersions('releaseTarGz')) { }
+tasks.create(name: "releaseTarGzAll", dependsOn: withDefScalaVersions('releaseTarGz')) {}
 
-tasks.create(name: "uploadArchivesAll", dependsOn: withDefScalaVersions('uploadScalaArchives') + pkgs.collect { it + ":uploadArchives" }) { }
+tasks.create(name: "uploadArchivesAll", dependsOn: withDefScalaVersions('uploadScalaArchives') + pkgs.collect { it + ":uploadArchives" }) {}
 
 project(':core') {
   println "Building project 'core' with Scala version ${versions.scala}"
@@ -702,7 +705,7 @@ project(':core') {
     scoverage libs.scoveragePlugin
     scoverage libs.scoverageRuntime
   }
-  
+
   scoverage {
     reportDir = file("${rootProject.buildDir}/scoverage")
     highlighting = false
@@ -726,11 +729,11 @@ project(':core') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
     }
     into "$buildDir/dependant-libs-${versions.scala}"
@@ -740,77 +743,99 @@ project(':core') {
   task genProtocolErrorDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.common.protocol.Errors'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "protocol_errors.html").newOutputStream()
   }
 
   task genProtocolTypesDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.common.protocol.types.Type'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "protocol_types.html").newOutputStream()
   }
 
   task genProtocolApiKeyDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.common.protocol.ApiKeys'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "protocol_api_keys.html").newOutputStream()
   }
 
   task genProtocolMessageDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.common.protocol.Protocol'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "protocol_messages.html").newOutputStream()
   }
 
   task genAdminClientConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.clients.admin.AdminClientConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "admin_client_config.html").newOutputStream()
   }
 
   task genProducerConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.clients.producer.ProducerConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "producer_config.html").newOutputStream()
   }
 
   task genConsumerConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.clients.consumer.ConsumerConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "consumer_config.html").newOutputStream()
   }
 
   task genKafkaConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'kafka.server.KafkaConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "kafka_config.html").newOutputStream()
   }
 
   task genTopicConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'kafka.log.LogConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "topic_config.html").newOutputStream()
   }
 
   task genConsumerMetricsDocs(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'org.apache.kafka.clients.consumer.internals.ConsumerMetrics'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "consumer_metrics.html").newOutputStream()
   }
 
   task genProducerMetricsDocs(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'org.apache.kafka.clients.producer.internals.ProducerMetrics'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "producer_metrics.html").newOutputStream()
   }
 
@@ -869,18 +894,18 @@ project(':core') {
 
   jar.manifest {
     attributes(
-      'Version': "${version}"
+            'Version': "${version}"
     )
   }
 
   tasks.create(name: "copyDependantTestLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('*.jar')
     }
     into "$buildDir/dependant-testlibs"
     //By default gradle does not handle test dependencies between the sub-projects
     //This line is to include clients project test jar to dependant-testlibs
-    from (project(':clients').testJar ) { "$buildDir/dependant-testlibs" }
+    from(project(':clients').testJar) { "$buildDir/dependant-testlibs" }
     duplicatesStrategy 'exclude'
   }
 
@@ -979,8 +1004,8 @@ project(':clients') {
     outputs.upToDateWhen { false }
     doLast {
       def data = [
-        commitId: commitId,
-        version: version,
+              commitId: commitId,
+              version : version,
       ]
 
       receiptFile.parentFile.mkdirs()
@@ -992,7 +1017,7 @@ project(':clients') {
   jar {
     dependsOn createVersionFile
     from("$buildDir") {
-        include "kafka/$buildVersionFileName"
+      include "kafka/$buildVersionFileName"
     }
   }
 
@@ -1000,10 +1025,10 @@ project(':clients') {
     delete "$buildDir/kafka/"
   }
 
-  task processMessages(type:JavaExec) {
+  task processMessages(type: JavaExec) {
     main = "org.apache.kafka.message.MessageGenerator"
     classpath = project(':generator').sourceSets.main.runtimeClasspath
-    args = [ "src/generated/java/org/apache/kafka/common/message", "src/main/resources/common/message" ]
+    args = ["src/generated/java/org/apache/kafka/common/message", "src/main/resources/common/message"]
     inputs.dir("src/main/resources/common/message")
     outputs.dir("src/generated/java/org/apache/kafka/common/message")
   }
@@ -1081,11 +1106,11 @@ project(':tools') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
     }
     into "$buildDir/dependant-libs-${versions.scala}"
@@ -1133,11 +1158,11 @@ project(':streams') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
     }
     into "$buildDir/dependant-libs-${versions.scala}"
@@ -1155,7 +1180,9 @@ project(':streams') {
   task genStreamsConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.streams.StreamsConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "streams_config.html").newOutputStream()
   }
 }
@@ -1188,7 +1215,7 @@ project(':streams:streams-scala') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-streams*')
     }
     into "$buildDir/dependant-libs-${versions.scala}"
@@ -1222,7 +1249,7 @@ project(':streams:test-utils') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-streams*')
     }
     into "$buildDir/dependant-libs-${versions.scala}"
@@ -1253,7 +1280,7 @@ project(':streams:examples') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-streams*')
     }
     into "$buildDir/dependant-libs-${versions.scala}"
@@ -1400,18 +1427,18 @@ project(':jmh-benchmarks') {
 
   task jmh(type: JavaExec, dependsOn: [':jmh-benchmarks:clean', ':jmh-benchmarks:shadowJar']) {
 
-    main="-jar"
+    main = "-jar"
 
     doFirst {
       if (System.getProperty("jmhArgs")) {
-          args System.getProperty("jmhArgs").split(',')
+        args System.getProperty("jmhArgs").split(',')
       }
       args = [shadowJar.archivePath, *args]
     }
   }
 
   javadoc {
-     enabled = false
+    enabled = false
   }
 }
 
@@ -1457,11 +1484,11 @@ project(':connect:api') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
       exclude('connect-*')
     }
@@ -1495,11 +1522,11 @@ project(':connect:transforms') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
       exclude('connect-*')
     }
@@ -1535,11 +1562,11 @@ project(':connect:json') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
       exclude('connect-*')
     }
@@ -1596,11 +1623,11 @@ project(':connect:runtime') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
       exclude('connect-*')
     }
@@ -1615,35 +1642,45 @@ project(':connect:runtime') {
   task genConnectConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.connect.runtime.distributed.DistributedConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "connect_config.html").newOutputStream()
   }
 
   task genSinkConnectorConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.connect.runtime.SinkConnectorConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "sink_connector_config.html").newOutputStream()
   }
 
   task genSourceConnectorConfigDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.connect.runtime.SourceConnectorConfig'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "source_connector_config.html").newOutputStream()
   }
 
   task genConnectTransformationDocs(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'org.apache.kafka.connect.tools.TransformationDoc'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "connect_transforms.html").newOutputStream()
   }
 
   task genConnectMetricsDocs(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'org.apache.kafka.connect.runtime.ConnectMetrics'
-    if( !generatedDocsDir.exists() ) { generatedDocsDir.mkdirs() }
+    if (!generatedDocsDir.exists()) {
+      generatedDocsDir.mkdirs()
+    }
     standardOutput = new File(generatedDocsDir, "connect_metrics.html").newOutputStream()
   }
 
@@ -1670,11 +1707,11 @@ project(':connect:file') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
       exclude('connect-*')
     }
@@ -1710,11 +1747,11 @@ project(':connect:basic-auth-extension') {
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
-    from (configurations.testRuntime) {
+    from(configurations.testRuntime) {
       include('slf4j-log4j12*')
       include('log4j*jar')
     }
-    from (configurations.runtime) {
+    from(configurations.runtime) {
       exclude('kafka-clients*')
       exclude('connect-*')
     }
