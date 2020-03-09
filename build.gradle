@@ -672,8 +672,6 @@ project(':core') {
       exclude module: 'zookeeper'
     }
     compile(libs.zookeeper) {
-      exclude module: 'slf4j-log4j12'
-      exclude module: 'log4j'
       exclude module: 'netty'
     }
 
@@ -1080,8 +1078,12 @@ project(':tools') {
     compile libs.argparse4j
     compile libs.jacksonDatabind
     compile libs.jacksonJDK8Datatypes
+    /*compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'*/
+    /*testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'*/
     compile libs.slf4jApi
-
+    compile libs.slf4jlog4j
     compile libs.jacksonJaxrsJsonProvider
     compile libs.jerseyContainerServlet
     compile libs.jerseyHk2
@@ -1097,8 +1099,6 @@ project(':tools') {
     testCompile libs.easymock
     testCompile libs.powermockJunit4
     testCompile libs.powermockEasymock
-
-    testRuntime libs.slf4jlog4j
   }
 
   javadoc {
